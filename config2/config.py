@@ -102,7 +102,7 @@ class Config(AttributeDict):
         config_directory_name = None,
         logger = False,
         detect = True,
-        silent = True,
+        silent = False,
     ):
         if isinstance(env, string_types):
             if os.path.sep in env:
@@ -177,7 +177,6 @@ class Config(AttributeDict):
         self.__config_files__ = []
         self.__config_path__ = config_path
         self.__default_config_file__ = None
-        self.__env_config_file__ = None
         self.__env_config_files__ = []
         self.__env_variables_file__ = None
         self.__env__ = env
@@ -237,14 +236,14 @@ class Config(AttributeDict):
             env_config_files = list(env_config_files)
 
             # current environment only
-            env_config_file = dict(enumerate(filter((lambda config_file:
-                config_file.basename == self.__env__
-            ), detected_files))).get(0, None)
+            cur_env_config_files = filter((lambda config_file:
+                config_file.basename == self.__env__ or config_file.basename.startswith(f"{self.__env__}-")
+            ), detected_files)
+            cur_env_config_files = list(cur_env_config_files)
 
-            config_files = [default_config_file] + env_config_files
             config_files = filter((lambda config_file:
                 config_file is not None
-            ), [default_config_file, env_config_file])
+            ), [default_config_file] + cur_env_config_files)
             config_files = list(config_files)
 
             files = config_files + [env_variables_file]
@@ -252,6 +251,8 @@ class Config(AttributeDict):
                 config_file is not None
             ), files)
             files = list(files)
+
+            print(f"[config2] Loading config from files: {[default_config_file] + cur_env_config_files + [env_variables_file]}")
 
             # load: default.yml
             try:
@@ -262,7 +263,7 @@ class Config(AttributeDict):
                     raise error
 
             # load: development.yml, production.yml, ...
-            for environment_config_file in env_config_files:
+            for environment_config_file in cur_env_config_files:
                 try:
                     self.__class__.load_file(environment_config_file)
 
@@ -294,7 +295,6 @@ class Config(AttributeDict):
             self.__env_variables_file__ = env_variables_file
             self.__default_config_file__ = default_config_file
             self.__env_config_files__ = env_config_files
-            self.__env_config_file__ = env_config_file
             self.__config_files__ = config_files
             self.__files__ = files
             self.__config_data__ = config_data
@@ -459,8 +459,4 @@ class Config(AttributeDict):
 #       INSTANCES
 # --------------------------------------
 
-try:
-    config = Config.create()
-
-except Exception as error:
-    print('WARN: {0}'.format(error))
+config = Config.create(silent=False)
