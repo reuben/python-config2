@@ -1,8 +1,7 @@
-setupextras >= 0.1.5
 rootpath >= 0.1.1
 attributedict >= 0.3.0
 inspecta >= 0.1.3
-mybad >= 0.1.4
+git+https://github.com/reuben/python-mybad.git@befd1e2d04acb62c34db17218bbf02c0dff6c9c3
 deepmerge >= 0.0.5
 pyyaml >= 5.1
 six >= 1.12.0

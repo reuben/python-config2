@@ -5,7 +5,6 @@
 
 import os
 import setuptools
-import setupextras
 
 # DISABLED/BUG: this line fails when `pip install config2` but works `pip install .`
 # from config2 import __version__
@@ -31,10 +30,18 @@ keywords = [
     'python-config',
 ]
 
-packages = setupextras.get_packages()
-data_files = setupextras.get_data_files(['*.*'], os.path.join(name, 'tests', '__fixtures__'))
-requirements = setupextras.get_requirements()
-readme = setupextras.get_readme()
+packages = setuptools.find_packages(".")
+requirements = [
+    "rootpath >= 0.1.1",
+    "attributedict @ git+https://github.com/reuben/python-attributedict.git@e4ffbdbcb3b24113ab344c56c0174c3056b8c2d9#egg=attributedict",
+    "inspecta >= 0.1.3",
+    "mybad @ git+https://github.com/reuben/python-mybad.git@b46ce8b44b5dabf5e0c560d2814b983c297b84e1#egg=mybad",
+    "deepmerge >= 0.0.5",
+    "pyyaml >= 5.1",
+    "six >= 1.12.0",
+]
+with open("README.md") as fin:
+    readme = ''.join(fin.readlines())
 
 config = {
     'name': name,
@@ -80,7 +87,6 @@ config = {
             '*.*',
         ],
     },
-    'data_files': data_files,
     'include_package_data': True,
     'zip_safe': True,
 
