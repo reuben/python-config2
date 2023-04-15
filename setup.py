@@ -32,16 +32,16 @@ keywords = [
 
 packages = setuptools.find_packages(".")
 requirements = [
-    "rootpath >= 0.1.1",
-    "attributedict @ git+https://github.com/reuben/python-attributedict.git@e4ffbdbcb3b24113ab344c56c0174c3056b8c2d9#egg=attributedict",
-    "inspecta >= 0.1.3",
-    "mybad @ git+https://github.com/reuben/python-mybad.git@b46ce8b44b5dabf5e0c560d2814b983c297b84e1#egg=mybad",
+    "rootpath @ git+https://github.com/reuben/python-rootpath.git@ced47237c25d39868d3ceb91af1f48b702469c99#egg=rootpath",
+    "attributedict @ git+https://github.com/reuben/python-attributedict.git@2e6f63a206e8fef2725d24c72e712bad86174501#egg=attributedict",
+    "inspecta @ git+https://github.com/reuben/python-inspecta.git@afc1e0c15d3c1ec714371e757388312606d43dc2#egg=inspecta",
+    "mybad @ git+https://github.com/reuben/python-mybad.git@7fc60c20ebda3604e3ca8fb82e2a6b3c20e9b027#egg=mybad",
     "deepmerge >= 0.0.5",
     "pyyaml >= 5.1",
     "six >= 1.12.0",
 ]
 with open("README.md") as fin:
-    readme = ''.join(fin.readlines())
+    readme = fin.read()
 
 config = {
     'name': name,
